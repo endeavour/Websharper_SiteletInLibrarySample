@@ -25,7 +25,7 @@ module NestedSite =
     
     let barContent (ctx:Context<_>) =
       [
-        Div [Text "Foo page"]
+        Div [Text "Bar page"]
       ]
     
     let sitelet =
