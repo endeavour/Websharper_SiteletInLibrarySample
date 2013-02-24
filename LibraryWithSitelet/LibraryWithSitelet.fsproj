@@ -40,7 +40,7 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NestedSitelets\Maps\Maps.fsproj">
+    <ProjectReference Include="..\Maps\Maps.fsproj">
       <Name>Maps</Name>
       <Project>{1727b39d-2d79-483f-8cc8-fc615148ad2e}</Project>
       <Private>True</Private>
