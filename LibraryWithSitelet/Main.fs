@@ -13,7 +13,6 @@ type NestedAction =
 | Foo
 | Bar of string
 | Upload
-| Ignore // No page here, but we have to have a bijection...
 
 module UploadHandler =
   open IntelliFactory.WebSharper.Sitelets
@@ -49,25 +48,24 @@ module UploadHandler =
     content  
 
 module NestedSite =
-
-  let sitelet (actionMap : NestedAction -> 'a) (templateWrapper:(Context<'a> -> Content.HtmlElement list) -> Content<NestedAction>) =
   
-    let fooContent (ctx:Context<_>) =
+  let sitelet (actionMap : 'a -> NestedAction) (templateWrapper:(Context<NestedAction> -> Content.HtmlElement list) -> Content<'a>) : Sitelet<'a> =
+  
+    let fooContent (ctx:Context<NestedAction>) =
       [
         Div [Text "Foo page"]
       ]
     
-    let barContent (ctx:Context<_>) =
+    let barContent (ctx:Context<NestedAction>) =
       [
         Div [Text "Bar page"]
       ]
-    
-    let sitelet =
-     Sitelet.Infer <| fun action ->
-     match action with
+
+    Sitelet.Infer <| fun action ->
+     match actionMap action with
      | Foo -> templateWrapper fooContent
      | Bar x -> templateWrapper barContent
      | Upload -> UploadHandler.UploadContentFactory "file" (fun _ -> "/success") (fun file -> () (*Save to disk etc here...*))
-     | Ignore -> failwith "Should never end up here"
 
-    sitelet |> Sitelet.FilterAction (function Ignore -> false | _ -> true)
+
+

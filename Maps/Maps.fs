@@ -2,7 +2,7 @@
 open IntelliFactory.WebSharper.Sitelets
 
 module Context =
-  let map (context:Context<'a>) (inverseActionMap:'b -> 'a) : Context<'b> =
+  let map (inverseActionMap:'b -> 'a) (context:Context<'a>) : Context<'b> =
     let newContext:Context<'b> =
       {
         ApplicationPath = context.ApplicationPath
@@ -14,12 +14,6 @@ module Context =
         Request = context.Request
       }
     newContext
-
-module Content =
-   let map (inverseActionMap:'b -> 'a) (content:Content<'b>) : Content<'a> =
-     match content with
-     | CustomContent f -> CustomContent (fun context -> f (Context.map context inverseActionMap))
-     | PageContent f -> PageContent (fun context -> f (Context.map context inverseActionMap))
 
 module Sitelet =
   let FilterAction (ok: 'T -> bool) (sitelet: Sitelet<'T>) =

@@ -80,21 +80,12 @@ module Site =
             ]
 
     let Main =
-
-        let nested =
-          let actionMap = (fun a -> Action.Nested(a))
-          let actionMap' = function | Action.Nested a -> a | _ -> NestedAction.Ignore
-          
-          let templateWrapper = Skin.WithTemplate "Home" >> Content.map actionMap'
-
-          NestedSite.sitelet actionMap templateWrapper
-          |> Sitelet.Map actionMap actionMap'
-          |> Sitelet.Shift "/nested"
-
         Sitelet.Sum [
-            nested
             Sitelet.Content "/" Home HomePage
-            Sitelet.Content "/About" About AboutPage            
+            Sitelet.Content "/About" About AboutPage
+            NestedSite.sitelet
+                <| function Nested n -> n | _ -> failwith "Can't happen: all cases already treated above"
+                <| fun f -> Skin.WithTemplate "Home" (f << Context.map Nested)
         ]
 
 type Website() =

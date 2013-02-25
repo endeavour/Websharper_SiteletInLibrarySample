@@ -40,7 +40,7 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\LibraryWithSitelet\LibraryWithSitelet.fsproj">
+    <ProjectReference Include="..\..\LibraryWithSitelet\LibraryWithSitelet.fsproj">
       <Name>LibraryWithSitelet</Name>
       <Project>{c5d465ea-df5d-477e-b68a-1f7df7f6614d}</Project>
       <Private>True</Private>
